@@ -1,0 +1,92 @@
+<script lang="ts">
+	import { derived, writable } from 'svelte/store';
+	import { steps } from './store';
+	import { onDestroy, onMount, setContext } from 'svelte';
+	import { enhance } from '$app/forms';
+    const active = writable('');
+    setContext('active', active);   
+    onDestroy(()=>{
+        $steps = []
+    }) 
+	const Go = (dir: number) => {
+		if (dir >= 0 && dir <= $steps.length) {
+			$active = $steps[dir];
+		}
+	};
+    let errors:boolean[] = []
+
+	export const formHasError = () => {
+		const step = document.getElementById($active);
+        
+        errors = []
+		const requiredFields = step?.querySelectorAll<HTMLInputElement>('input');
+            
+		let hasError = false;
+
+		requiredFields?.forEach((el) => {
+            
+			if (!el.checkValidity()) {
+				hasError = true;
+                el.classList.add("error")
+                el.insertAdjacentHTML("afterend",`<span class="error">${el.validationMessage}</span>`)
+			}
+            errors.push(hasError)
+		});
+	};
+
+	const Next = () => {
+        formHasError();
+        const noError = errors.every((val)=>!val)
+        
+		if (($activeIndex >= 0 && $activeIndex < $steps.length - 1)&& noError) {
+			Go($activeIndex + 1);
+		}
+	};
+
+	const Prev = () => {
+		if ($activeIndex > 0) {
+			Go($activeIndex - 1);
+		}
+	};
+
+	const activeIndex = derived(active, (active) => {
+		return $steps.findIndex((val) => {
+			return val === active;
+		});
+	});
+
+	setContext("activeIndex",activeIndex)
+
+	$:progress = ($activeIndex/($steps.length-1))*100
+</script>
+
+<div id="wizard_container">
+	<div id="top-wizard">
+		<div id="progressbar" class="h-0.5 w-full bg-transparent">
+			<div class="h-full bg-[#63c] transition-all duration-200 ease-in-out" style="width: {progress}%;"></div>
+		</div>
+	</div>
+	<form action="" method="post" use:enhance>
+		<div class="" id="middle-wizard">
+			<slot />
+		</div>
+	</form>
+	<div id="bottom-wizard">
+		<button type="button" on:click={Prev} disabled={$activeIndex === 0} class="backward"
+			>Prev</button
+		>
+		<button
+			type="button"
+			on:click={Next}
+			disabled={$activeIndex === $steps.length - 1}
+			class="forward">Next</button
+		>
+		<button
+			type="submit"
+			name="process"
+			disabled={$activeIndex !== $steps.length - 1}
+			class="submit">Submit</button
+		>
+	</div>
+	<!-- /bottom-wizard -->
+</div>

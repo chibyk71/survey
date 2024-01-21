@@ -1,0 +1,344 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { countries } from '$lib/countries'
+	import Step from '$lib/comp/step.svelte';
+	import Wrapper from '$lib/comp/wrapper.svelte';
+	import Select from 'svelte-select';
+	import { FacebookIcon, TwitterIcon } from 'lucide-svelte';
+	import { page } from '$app/stores';
+	let value = {label: 'Nigeria', value: 'NG'}
+	let error = ""
+	let urlTrackers:{[x:string]:boolean} = {};
+	let lastVisited:number;
+	let verifiedLinks = 0
+	onMount(()=>{
+		lastVisited = JSON.parse(localStorage.getItem("lastVisited")||"0");
+		if (lastVisited && lastVisited != 0 && (Date.now() < (lastVisited+300000))) {
+			urlTrackers = JSON.parse(localStorage.getItem("urlTracker")||"{}")
+			
+			if ($page.url.searchParams.size > 0) {
+				let followed = $page.url.searchParams.get("r")||"";
+				if (urlTrackers.hasOwnProperty(followed) && !urlTrackers[followed]) {
+					urlTrackers[followed] = true;
+					Object.keys(urlTrackers).forEach(function(e) {
+  						if (urlTrackers[e]) verifiedLinks++
+					})
+				}else{
+					error = "invalid link, it seems the link is already verified or incorrect"
+				}
+			}
+		}else {
+			localStorage.setItem("urlTracker","{}")
+		}
+	})
+
+
+	const sendtowhatsap =()=>{
+		let id = Math.round(Math.random()*728983).toString(32)
+		urlTrackers[id] = false;
+		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
+		localStorage.setItem("lastVisited",JSON.stringify(Date.now()))
+		document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input.")}${$page.url.href}?r=${id}`)
+	}
+</script>
+
+<div class="container-fluid h-screen">
+	<div class="flex row-height">
+		<div class="lg:w-1/2 content-left">
+			<div class="content-left-wrapper">
+				<a href="index.html" id="logo"><img src="logo.svg" alt="" width="49" height="35" /></a>
+				<div id="social">
+					<ul>
+						<li><a href="#0"><FacebookIcon class="icon-facebook"/></a></li>
+						<li><a href="#0"><TwitterIcon class="icon-twitter"/></a></li>
+					</ul>
+				</div>
+				<!-- /social -->
+				<div>
+					<figure><img src="info_graphic_1.svg" alt="" class="img-fluid" /></figure>
+					<h2>Shape the Future of Africa - Complete Our Survey and Earn $5!</h2>
+					<p>
+						Join us in shaping the future of Africa! Your voice matters, and we want to hear your
+						thoughts. By completing our survey, you not only contribute to vital research but also
+						earn a $5 reward as a token of our gratitude.
+					</p>
+					<a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
+				</div>
+				<div class="copy">AfriSure Insurance © 2023 </div>
+			</div>
+			<!-- /content-left-wrapper -->
+		</div>
+		<!-- /content-left -->
+
+		<div class="lg:w-1/2 content content-right" id="start">
+			<Wrapper>
+				<Step title="Please fill with your personal details">
+					<div class="form-group">
+						<input
+							type="text"
+							name="firstname"
+							class="form-control"
+							placeholder="First Name"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<input
+							type="text"
+							name="lastname"
+							class="form-control required"
+							placeholder="Last Name"
+						/>
+					</div>
+					<div class="form-group">
+						<input
+							type="email"
+							name="email"
+							class="form-control required"
+							placeholder="Your Email"
+						/>
+					</div>
+					<div class="form-group">
+						<Select items={countries} name="country" bind:value />
+					</div>
+					<div class="flex items-center justify-between mb-3">
+						<div class="w-3/12">
+							<div class="form-group !mb-0">
+								<input type="text" name="age" class="form-control" placeholder="Age" />
+							</div>
+						</div>
+						<div class="w-9/12">
+							<div class="form-group radio_input">
+								<label class="container_radio"
+									>Male
+									<input type="radio" name="gender" value="Male" required />
+									<span class="checkmark"></span>
+								</label>
+								<label class="container_radio">Female
+									<input type="radio" name="gender" value="Female" required />
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+					<div class="form-group terms">
+						<label class="container_check"
+							>Please accept our <a href={"#"} data-bs-toggle="modal" data-bs-target="#terms-txt"
+								>Terms and conditions</a
+							>
+							<input type="checkbox" name="terms" value="Yes" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</Step>
+				<!-- /step-->
+				<Step title="How familiar are you with insurance products and their benefits?">
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Very familiar
+							<input type="radio" name="question_1" value="Very familiar" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Somewhat familiar
+							<input type="radio" name="question_1" value="Somewhat familiar" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Not familiar at all
+							<input type="radio" name="question_1" value="Not familiar at all" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</Step>
+				<!-- /step-->
+				<Step title="Which insurance products do you consider most essential for your needs?">
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Health insurance
+							<input type="radio" name="question_3" value="Health insurance" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Life insurance
+							<input type="radio" name="question_3" value="Life insurance" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Vehicle insurance
+							<input type="radio" name="question_3" value="Vehicle insurance" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Property insurance
+							<input type="radio" name="question_3" value="Property insurance" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Other (please specify)</label>
+						<textarea
+							name="additional_message"
+							class="form-control"
+							style="height:100px;"
+							placeholder="Type here additional info..."
+						></textarea>
+					</div>
+				</Step>
+				<!-- /step-->
+				<Step title="What factors are most important to you when choosing an insurance provider?">
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Trustworthiness of the company
+							<input
+								type="radio"
+								name="question_4"
+								value="Trustworthiness of the company"
+								class="required"
+							/>
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Affordability of premiums
+							<input
+								type="radio"
+								name="question_4"
+								value="Affordability of premiums"
+								class="required"
+							/>
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Range of coverage options
+							<input
+								type="radio"
+								name="question_4"
+								value="Range of coverage options"
+								class="required"
+							/>
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Customer service quality
+							<input
+								type="radio"
+								name="question_4"
+								value="Customer service quality"
+								class="required"
+							/>
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Other (please specify)</label>
+						<textarea
+							name="additional_message"
+							class="form-control"
+							style="height:100px;"
+							placeholder="Type here additional info..."
+						></textarea>
+					</div>
+				</Step>
+				<!-- /step-->
+				<Step title="Through which channels would you prefer to receive information about insurance products and services?">
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Online platforms
+							<input type="radio" name="question_5" value="Online platforms" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Local community events
+							<input
+								type="radio"
+								name="question_5"
+								value="Local community events"
+								class="required"
+							/>
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Traditional media (TV, radio)
+							<input
+								type="radio"
+								name="question_5"
+								value="Traditional media (TV, radio)"
+								class="required"
+							/>
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="container_radio version_2"
+							>Direct mail
+							<input type="radio" name="question_5" value="Direct mail" class="required" />
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Other (please specify)</label>
+						<textarea
+							name="additional_message"
+							class="form-control"
+							style="height:100px;"
+							placeholder="Type here additional info..."
+						></textarea>
+					</div>
+				</Step>
+				<!-- /step-->
+				<Step title="Are there any cultural or traditional practices that influence your
+						views on insurance or financial planning? If yes, please share your insights.">
+					<div class="form-group">
+						<label for="">Cultural Considerations</label>
+						<textarea
+							name="Cultural Considerations"
+							class="form-control"
+							style="height:100px;"
+							placeholder="Type here additional info..."
+						></textarea>
+					</div>
+				</Step>
+				<!-- /step-->
+				<Step slideTo={!!(lastVisited && $page.url.searchParams.has("r"))}>
+					<h3 class="font-bold text-lg/none mb-3">Almost There, for this stage you are to share this link to 2 whatsapp group to complete the survey</h3>
+					<p class="mb-3 text-sm font-medium"><b>Note:</b>"You are required to share the link and follow the provided link back to this page for validation purposes. This step is necessary for the payout process."</p>
+					<div class="relative hidden"><input type="checkbox" name="" id="" required checked={verifiedLinks>1} class="hidden"></div>
+					<button on:click={sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+						Share To Whatsapp
+					</button>
+				</Step><!-- /step-->
+				<Step>
+					<h3 class="font-bold text-lg/none mb-3">We sincerely appreciate your valuable input. Thank you for contributing to our research!</h3>
+					<p class="mb-3 text-sm font-normal">We will dispatch an email containing the specifics of your gift card within 48 hours subsequent to the verification of your input.</p>
+					<button on:click={sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+						Share To Whatsapp
+					</button>
+				</Step>
+			</Wrapper>
+			<!-- /Wizard container -->
+		</div>
+		<!-- /content-right-->
+	</div>
+	<!-- /row-->
+</div>
