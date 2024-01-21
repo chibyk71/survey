@@ -43,8 +43,8 @@
 </script>
 
 <div class="container-fluid h-screen">
-	<div class="flex row-height">
-		<div class="lg:w-1/2 content-left">
+	<div class="flex row-height flex-wrap">
+		<div class="lg:w-1/2 content-left w-full">
 			<div class="content-left-wrapper">
 				<a href="index.html" id="logo"><img src="logo.svg" alt="" width="49" height="35" /></a>
 				<div id="social">
@@ -54,15 +54,17 @@
 					</ul>
 				</div>
 				<!-- /social -->
-				<div>
-					<figure><img src="info_graphic_1.svg" alt="" class="img-fluid" /></figure>
-					<h2>Shape the Future of Africa - Complete Our Survey and Earn $5!</h2>
-					<p>
-						Join us in shaping the future of Africa! Your voice matters, and we want to hear your
-						thoughts. By completing our survey, you not only contribute to vital research but also
-						earn a $5 reward as a token of our gratitude.
-					</p>
-					<a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
+				<div class="flex flex-col items-center h-full">
+					<figure class="flex-1 h-1/3"><img src="info_graphic_1.svg" alt="" class="h-full" /></figure>
+					<div class="flex-1">
+						<h2>Shape the Future of Africa - Complete Our Survey and Earn $5!</h2>
+						<p>
+							Join us in shaping the future of Africa! Your voice matters, and we want to hear your
+							thoughts. By completing our survey, you not only contribute to vital research but also
+							earn a $5 reward as a token of our gratitude.
+						</p>
+						<a href="#start" class="btn_1 rounded mobile_btn">Start Now!</a>
+					</div>
 				</div>
 				<div class="copy">AfriSure Insurance © 2023 </div>
 			</div>
@@ -70,7 +72,7 @@
 		</div>
 		<!-- /content-left -->
 
-		<div class="lg:w-1/2 content content-right" id="start">
+		<div class="lg:w-1/2 w-full content content-right" id="start">
 			<Wrapper>
 				<Step title="Please fill with your personal details">
 					<div class="form-group">

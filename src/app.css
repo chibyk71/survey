@@ -332,9 +332,6 @@ a.btn_1.rounded {
   .content-left-wrapper {
     padding: 95px 30px 35px 30px;
   }
-  .content-left-wrapper figure img {
-    height: 150px;
-  }
 }
 @media (max-width: 767px) {
   .content-left-wrapper {
