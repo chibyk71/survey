@@ -42,7 +42,7 @@
 		urlTrackers[id] = false;
 		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
 		localStorage.setItem("lastVisited",JSON.stringify(Date.now()))
-		document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input.")}${$page.url.href}?r=${id}`)
+		document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input."+$page.url.origin+"?r="+id)}`)
 	}
 </script>
 
@@ -50,7 +50,7 @@
 	<meta property="og:title" content="Secure Your Future: Participate in Our Insurance Survey and Earn $5!" />
 	<meta property="og:image" content="{$page.url.origin}/1.png" />
 	<meta property="og:description" content="Take a few minutes to share your insights on insurance in Africa and receive a $5 incentive! Your opinions matter, and we want to reward you for contributing to a better understanding of insurance needs in the region. Join our survey now and help shape the future of insurance in Africa."/>
-	<meta property="og:url" content="{$page.url.href}" />
+	<meta property="og:url" content="{$page.url.origin}?r={id}" />
 
 </svelte:head>
 
