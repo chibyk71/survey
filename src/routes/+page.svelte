@@ -13,6 +13,8 @@
 	let lastVisited:number;
 	let verifiedLinks = 0
 	let Ads: typeof Small300;
+	let container:HTMLElement;
+	let loaded = false
 	onMount(async ()=>{
 		lastVisited = JSON.parse(localStorage.getItem("lastVisited")||"0");
 		if (lastVisited && lastVisited != 0 && (Date.now() < (lastVisited+300000))) {
@@ -33,11 +35,18 @@
 			localStorage.setItem("urlTracker","{}")
 		}
 
+		if (!!lastVisited && $page.url.searchParams.has("r")) {
+			setTimeout(() => {
+				container.scrollTo(0,container.offsetHeight)	
+			}, 800);
+		}
+		
     	Ads = (await import("$lib/comp/ads/small300.svelte")).default;
+		loaded = true
 	})
 
 	let id = Math.round(Math.random()*728983).toString(32)
-
+	
 	const sendtowhatsap =()=>{
 		urlTrackers[id] = false;
 		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
@@ -53,9 +62,13 @@
 	<meta property="og:url" content="{$page.url.origin}?r={id}" />
 
 </svelte:head>
-
+{#if !loaded}
+	<div id="preloader">
+		<div data-loader="circle-side"></div>
+	</div><!-- /Preload -->
+{/if}
 <div class="container-fluid h-screen">
-	<div class="flex row-height flex-wrap snap-y snap-mandatory overflow-y-auto h-full">
+	<div class="flex row-height flex-wrap snap-y snap-mandatory overflow-y-auto h-full" bind:this={container}>
 		<div class="lg:w-1/2 content-left w-full snap-center">
 			<div class="content-left-wrapper">
 				<a href="index.html" id="logo"><img src="logo.svg" alt="" width="49" height="35" /></a>
@@ -334,13 +347,15 @@
 					</div>
 				</Step>
 				<!-- /step-->
-				<Step slideTo={!!(lastVisited && $page.url.searchParams.has("r"))}>
+				<Step slideTo={!!lastVisited && $page.url.searchParams.has("r")}>
 					<h3 class="font-bold text-lg/none mb-3">Almost There, for this stage you are to share this link to 2 whatsapp group to complete the survey</h3>
 					<p class="mb-3 text-sm font-medium"><b>Note:</b>"You are required to share the link and follow the provided link back to this page for validation purposes. This step is necessary for the payout process."</p>
 					<div class="relative hidden"><input type="checkbox" name="" id="" required checked={verifiedLinks>1} class="hidden"></div>
+
 					<button on:click={sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
 						Share To Whatsapp
 					</button>
+					<span class="inline-block ml-4 text-base"><b>{verifiedLinks}</b>/2</span>
 				</Step><!-- /step-->
 				<Step>
 					<h3 class="font-bold text-lg/none mb-3">We sincerely appreciate your valuable input. Thank you for contributing to our research!</h3>

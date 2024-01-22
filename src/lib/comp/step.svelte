@@ -10,10 +10,14 @@
     export let slideTo = false
     let id = Math.floor(Math.random() * 37657853628).toString(32)
     $steps.push(id)
+    
     onMount(()=>{
-        index = $steps.findIndex((val)=>val===id)  
-        if(!$active||$activeIndex < 1) $active = $steps[slideTo ? index:0];
+        index = $steps.findIndex((val)=>val===id) 
+        setTimeout(() => {
+            if(!$active||$activeIndex < 1) $active = $steps[slideTo ? index:0];
+        }, 100*index);
     })
+    
 </script>
 
 {#if id == $active}
