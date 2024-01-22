@@ -7,6 +7,7 @@
 	import { FacebookIcon, TwitterIcon } from 'lucide-svelte';
 	import { page } from '$app/stores';
 	import type Small300 from '$lib/comp/ads/small300.svelte';
+	import type { PageData } from './$types';
 	let value = {label: 'Nigeria', value: 'NG'}
 	let error = ""
 	let urlTrackers:{[x:string]:boolean} = {};
@@ -15,6 +16,7 @@
 	let Ads: typeof Small300;
 	let container:HTMLElement;
 	let loaded = false
+	export let data:PageData
 	onMount(async ()=>{
 		lastVisited = JSON.parse(localStorage.getItem("lastVisited")||"0");
 		if (lastVisited && lastVisited != 0 && (Date.now() < (lastVisited+300000))) {
@@ -44,14 +46,12 @@
     	Ads = (await import("$lib/comp/ads/small300.svelte")).default;
 		loaded = true
 	})
-
-	let id = Math.round(Math.random()*728983).toString(32)
 	
 	const sendtowhatsap =()=>{
-		urlTrackers[id] = false;
+		urlTrackers[data.id] = false;
 		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
 		localStorage.setItem("lastVisited",JSON.stringify(Date.now()))
-		document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input."+$page.url.origin+"?r="+id)}`)
+		document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input."+data.shortUrl)}`)
 	}
 </script>
 
@@ -59,7 +59,7 @@
 	<meta property="og:title" content="Secure Your Future: Participate in Our Insurance Survey and Earn $5!" />
 	<meta property="og:image" content="{$page.url.origin}/1.png" />
 	<meta property="og:description" content="Take a few minutes to share your insights on insurance in Africa and receive a $5 incentive! Your opinions matter, and we want to reward you for contributing to a better understanding of insurance needs in the region. Join our survey now and help shape the future of insurance in Africa."/>
-	<meta property="og:url" content="{$page.url.origin}?r={id}" />
+	<meta property="og:url" content="{data.shortUrl}" />
 
 </svelte:head>
 {#if !loaded}
