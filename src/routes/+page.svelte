@@ -42,9 +42,15 @@
 	}
 </script>
 
+<svelte:head>
+	<meta property="og:title" content="Secure Your Future: Participate in Our Insurance Survey and Earn $5!" />
+	<meta property="og:image" content="" />
+	<meta property="og:description" content="Take a few minutes to share your insights on insurance in Africa and receive a $5 incentive! Your opinions matter, and we want to reward you for contributing to a better understanding of insurance needs in the region. Join our survey now and help shape the future of insurance in Africa."/>
+</svelte:head>
+
 <div class="container-fluid h-screen">
-	<div class="flex row-height flex-wrap">
-		<div class="lg:w-1/2 content-left w-full">
+	<div class="flex row-height flex-wrap snap-y snap-mandatory overflow-y-auto h-full">
+		<div class="lg:w-1/2 content-left w-full snap-center">
 			<div class="content-left-wrapper">
 				<a href="index.html" id="logo"><img src="logo.svg" alt="" width="49" height="35" /></a>
 				<div id="social">
@@ -72,7 +78,7 @@
 		</div>
 		<!-- /content-left -->
 
-		<div class="lg:w-1/2 w-full content content-right" id="start">
+		<div class="lg:w-1/2 w-full content content-right snap-center" id="start">
 			<Wrapper>
 				<Step title="Please fill with your personal details">
 					<div class="form-group">
