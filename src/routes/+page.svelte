@@ -36,9 +36,9 @@
     	Ads = (await import("$lib/comp/ads/small300.svelte")).default;
 	})
 
+	let id = Math.round(Math.random()*728983).toString(32)
 
 	const sendtowhatsap =()=>{
-		let id = Math.round(Math.random()*728983).toString(32)
 		urlTrackers[id] = false;
 		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
 		localStorage.setItem("lastVisited",JSON.stringify(Date.now()))
@@ -48,9 +48,10 @@
 
 <svelte:head>
 	<meta property="og:title" content="Secure Your Future: Participate in Our Insurance Survey and Earn $5!" />
-	<meta property="og:image" content="" />
+	<meta property="og:image" content="{$page.url.origin}/1.png" />
 	<meta property="og:description" content="Take a few minutes to share your insights on insurance in Africa and receive a $5 incentive! Your opinions matter, and we want to reward you for contributing to a better understanding of insurance needs in the region. Join our survey now and help shape the future of insurance in Africa."/>
-	<meta name="monetag" content="0cf9b4322b11bf945bccf074297cd6b0">
+	<meta property="og:url" content="{$page.url.href}" />
+
 </svelte:head>
 
 <div class="container-fluid h-screen">
@@ -344,9 +345,6 @@
 				<Step>
 					<h3 class="font-bold text-lg/none mb-3">We sincerely appreciate your valuable input. Thank you for contributing to our research!</h3>
 					<p class="mb-3 text-sm font-normal">We will dispatch an email containing the specifics of your gift card within 48 hours subsequent to the verification of your input.</p>
-					<button on:click={sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
-						Share To Whatsapp
-					</button>
 				</Step>
 			</Wrapper>
 			<!-- /Wizard container -->

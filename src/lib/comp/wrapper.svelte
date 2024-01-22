@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { derived, writable } from 'svelte/store';
 	import { steps } from './store';
-	import { onDestroy, onMount, setContext } from 'svelte';
+	import { onDestroy, setContext } from 'svelte';
 	import { enhance } from '$app/forms';
     const active = writable('');
     setContext('active', active);   
