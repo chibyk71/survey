@@ -356,11 +356,7 @@ a#logo {
   top: 15px;
   right: 20px;
 }
-@media (max-width: 991px) {
-  #social {
-    right: 70px;
-  }
-}
+
 #social ul {
   margin: 0;
   padding: 0;

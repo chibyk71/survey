@@ -71,7 +71,7 @@
 	<div class="flex row-height flex-wrap snap-y snap-mandatory overflow-y-auto h-full" bind:this={container}>
 		<div class="lg:w-1/2 content-left w-full snap-center">
 			<div class="content-left-wrapper">
-				<a href="index.html" id="logo"><img src="logo.svg" alt="" width="49" height="35" /></a>
+				<a href="/" id="logo"><img src="logo.svg" alt="" width="49" height="35" /></a>
 				<div id="social">
 					<ul>
 						<li><a href="#0"><FacebookIcon class="icon-facebook"/></a></li>
@@ -113,8 +113,9 @@
 						<input
 							type="text"
 							name="lastname"
-							class="form-control required"
+							class="form-control"
 							placeholder="Last Name"
+							required
 						/>
 					</div>
 					<div class="form-group">
@@ -123,6 +124,7 @@
 							name="email"
 							class="form-control required"
 							placeholder="Your Email"
+							required
 						/>
 					</div>
 					<div class="form-group">
@@ -131,7 +133,7 @@
 					<div class="flex items-center justify-between mb-3">
 						<div class="w-3/12">
 							<div class="form-group !mb-0">
-								<input type="text" name="age" class="form-control" placeholder="Age" />
+								<input type="text" name="age" required class="form-control" placeholder="Age" />
 							</div>
 						</div>
 						<div class="w-9/12">
@@ -150,11 +152,8 @@
 					</div>
 					<!-- /row -->
 					<div class="form-group terms">
-						<label class="container_check"
-							>Please accept our <a href={"#"} data-bs-toggle="modal" data-bs-target="#terms-txt"
-								>Terms and conditions</a
-							>
-							<input type="checkbox" name="terms" value="Yes" class="required" />
+						<label for="terms" class="container_check">Please accept our <a href={"#"}>Terms and conditions</a>
+							<input id="terms" required type="checkbox" name="terms" value="Yes" class="required" />
 							<span class="checkmark"></span>
 						</label>
 					</div>
@@ -171,14 +170,14 @@
 					<div class="form-group">
 						<label class="container_radio version_2"
 							>Somewhat familiar
-							<input type="radio" name="question_1" value="Somewhat familiar" class="required" />
+							<input type="radio" name="question_1" value="Somewhat familiar" required />
 							<span class="checkmark"></span>
 						</label>
 					</div>
 					<div class="form-group">
 						<label class="container_radio version_2"
 							>Not familiar at all
-							<input type="radio" name="question_1" value="Not familiar at all" class="required" />
+							<input type="radio" name="question_1" value="Not familiar at all" required />
 							<span class="checkmark"></span>
 						</label>
 					</div>
@@ -188,28 +187,28 @@
 					<div class="form-group">
 						<label class="container_radio version_2"
 							>Health insurance
-							<input type="radio" name="question_3" value="Health insurance" class="required" />
+							<input type="radio" name="question_3" value="Health insurance" required />
 							<span class="checkmark"></span>
 						</label>
 					</div>
 					<div class="form-group">
 						<label class="container_radio version_2"
 							>Life insurance
-							<input type="radio" name="question_3" value="Life insurance" class="required" />
+							<input type="radio" name="question_3" value="Life insurance" required />
 							<span class="checkmark"></span>
 						</label>
 					</div>
 					<div class="form-group">
 						<label class="container_radio version_2"
 							>Vehicle insurance
-							<input type="radio" name="question_3" value="Vehicle insurance" class="required" />
+							<input type="radio" name="question_3" value="Vehicle insurance" required />
 							<span class="checkmark"></span>
 						</label>
 					</div>
 					<div class="form-group">
 						<label class="container_radio version_2"
 							>Property insurance
-							<input type="radio" name="question_3" value="Property insurance" class="required" />
+							<input type="radio" name="question_3" value="Property insurance" required />
 							<span class="checkmark"></span>
 						</label>
 					</div>

@@ -26,6 +26,10 @@ export const load = (async ({url}) => {
             return link.shortUrl;
     }
 
-    const shortUrl = await shorten(url.origin+"?r="+id);
+    const shortUrl = await shorten(url.origin + "?r=" + id).catch(e => {
+        console.log(e);
+        
+        return ""
+    });
     return {shortUrl,id};
 }) satisfies PageServerLoad;

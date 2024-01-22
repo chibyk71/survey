@@ -3,6 +3,7 @@
 	import { steps } from './store';
 	import { onDestroy, setContext } from 'svelte';
 	import { enhance } from '$app/forms';
+	import { error } from '@sveltejs/kit';
     const active = writable('');
     setContext('active', active);   
     onDestroy(()=>{
@@ -33,8 +34,16 @@
 
 			if (!el.checkValidity()) {
 				hasError = true;
+				if (el.classList.contains("error")) {
+					return
+				}
                 el.classList.add("error")
                 el.insertAdjacentHTML("afterend",`<span class="error">${el.validationMessage}</span>`)
+			}else{
+				el.classList.remove("error")
+				if (el.nextElementSibling?.matches("span.error")) {
+					el.nextElementSibling.remove()
+				}
 			}
             errors.push(hasError)
 		});
