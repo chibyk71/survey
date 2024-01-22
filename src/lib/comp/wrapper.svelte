@@ -77,7 +77,7 @@
 
 		return async ({ result, update }) => {
 			submitting = false
-			document.location.href = "https://www.toprevenuegate.com/a6261jf1rd?key=ebad7dc9c6072cbe3d60a4f538dcb740"
+			document.location.href = "https://potskolu.net/4/3768619"
 		}
   }}
 >
