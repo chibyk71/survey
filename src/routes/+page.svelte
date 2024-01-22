@@ -6,12 +6,14 @@
 	import Select from 'svelte-select';
 	import { FacebookIcon, TwitterIcon } from 'lucide-svelte';
 	import { page } from '$app/stores';
+	import type Small300 from '$lib/comp/ads/small300.svelte';
 	let value = {label: 'Nigeria', value: 'NG'}
 	let error = ""
 	let urlTrackers:{[x:string]:boolean} = {};
 	let lastVisited:number;
 	let verifiedLinks = 0
-	onMount(()=>{
+	let Ads: typeof Small300;
+	onMount(async ()=>{
 		lastVisited = JSON.parse(localStorage.getItem("lastVisited")||"0");
 		if (lastVisited && lastVisited != 0 && (Date.now() < (lastVisited+300000))) {
 			urlTrackers = JSON.parse(localStorage.getItem("urlTracker")||"{}")
@@ -30,6 +32,8 @@
 		}else {
 			localStorage.setItem("urlTracker","{}")
 		}
+
+    	Ads = (await import("$lib/comp/ads/small300.svelte")).default;
 	})
 
 
@@ -46,6 +50,7 @@
 	<meta property="og:title" content="Secure Your Future: Participate in Our Insurance Survey and Earn $5!" />
 	<meta property="og:image" content="" />
 	<meta property="og:description" content="Take a few minutes to share your insights on insurance in Africa and receive a $5 incentive! Your opinions matter, and we want to reward you for contributing to a better understanding of insurance needs in the region. Join our survey now and help shape the future of insurance in Africa."/>
+	<meta name="monetag" content="0cf9b4322b11bf945bccf074297cd6b0">
 </svelte:head>
 
 <div class="container-fluid h-screen">
@@ -78,7 +83,7 @@
 		</div>
 		<!-- /content-left -->
 
-		<div class="lg:w-1/2 w-full content content-right snap-center" id="start">
+		<div class="lg:w-1/2 w-full content content-right snap-center flex-wrap" id="start">
 			<Wrapper>
 				<Step title="Please fill with your personal details">
 					<div class="form-group">
@@ -345,6 +350,7 @@
 				</Step>
 			</Wrapper>
 			<!-- /Wizard container -->
+			<svelte:component this={Ads} />
 		</div>
 		<!-- /content-right-->
 	</div>

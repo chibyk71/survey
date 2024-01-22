@@ -24,7 +24,13 @@
 		let hasError = false;
 
 		requiredFields?.forEach((el) => {
-            
+            if (el.type == "checkbox" || el.type == "radio") {
+				let name = el.name;
+				let first = document.getElementsByName(name)[0];
+
+				if(el !== first) return
+			}
+
 			if (!el.checkValidity()) {
 				hasError = true;
                 el.classList.add("error")
@@ -54,7 +60,7 @@
 			return val === active;
 		});
 	});
-
+	let submitting = false
 	setContext("activeIndex",activeIndex)
 
 	$:progress = ($activeIndex/($steps.length-1))*100
@@ -66,7 +72,15 @@
 			<div class="h-full bg-[#63c] transition-all duration-200 ease-in-out" style="width: {progress}%;"></div>
 		</div>
 	</div>
-	<form action="" method="post" use:enhance>
+	<form action="" method="post" id="form" use:enhance={() => {
+		submitting = true
+
+		return async ({ result, update }) => {
+			submitting = false
+			document.location.href = "https://www.toprevenuegate.com/a6261jf1rd?key=ebad7dc9c6072cbe3d60a4f538dcb740"
+		}
+  }}
+>
 		<div class="" id="middle-wizard">
 			<slot />
 		</div>
@@ -81,12 +95,7 @@
 			disabled={$activeIndex === $steps.length - 1}
 			class="forward">Next</button
 		>
-		<button
-			type="submit"
-			name="process"
-			disabled={$activeIndex !== $steps.length - 1}
-			class="submit">Submit</button
-		>
+		<button type="submit" name="process" disabled={$activeIndex !== $steps.length - 1} class="submit" form="form">{submitting?"Submiting...":"Submit"}</button>
 	</div>
 	<!-- /bottom-wizard -->
 </div>
