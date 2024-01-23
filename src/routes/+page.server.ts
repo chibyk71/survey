@@ -3,33 +3,22 @@ import type { PageServerLoad } from './$types';
 export const load = (async ({url}) => {
 
     const id = Math.round(Math.random() * 728983).toString(32)
-    const headers = {
-        "Content-Type": "application/json",
-        "apikey": "8991346cb2f5418286f4e510cf99acaf",
-    }
-    const shorten = async (url: string): Promise<string> => {
-        const endpoint = "https://api.rebrandly.com/v1/links";
-        const linkRequest = {
-            destination: url,
-            domain: { fullName: "rebrand.ly" }
-        }
-        const apiCall = {
-            method: 'post',
-            body: JSON.stringify(linkRequest),
-            headers: headers
-        }
-        const link = await fetch(endpoint, apiCall)
-            .then((apiResponse) => {
-                return apiResponse.json()
-            });
-        
-            return link.shortUrl;
-    }
-
-    const shortUrl = await shorten(url.origin + "?r=" + id).catch(e => {
-        console.log(e);
-        
-        return ""
-    });
-    return {shortUrl,id};
+    
+    const shortUrl = await fetch('https://www.urlday.com/api/v1/links', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + 'BGes6CewZDsyPXzhA1Hk3tQ5IcBVZAYYGoS4boIIA4ieIX2BZDUiGiyMSqoi', // Replace with your actual API key
+        },
+        body: new URLSearchParams({
+            url: url.origin+"?r="+id, // Replace with the actual URL you want to submit
+        }),
+    })
+        .then(response => { return response.json() })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+    
+    return { shortUrl: shortUrl.data.short_url,id};
 }) satisfies PageServerLoad;
