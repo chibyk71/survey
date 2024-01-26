@@ -47,11 +47,15 @@
 		loaded = true
 	})
 	
-	const sendtowhatsap =()=>{
+	const sendtowhatsap =(where=0)=>{
 		urlTrackers[data.id] = false;
 		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
 		localStorage.setItem("lastVisited",JSON.stringify(Date.now()))
-		document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input. https://"+data.shortUrl)}`)
+		if (where) {
+			document.location.assign(`https://telegram.me/share/url?url=https://${data.shortUrl}&text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input. https://"+data.shortUrl)}`)
+		}else{
+			document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input. https://"+data.shortUrl)}`)
+		}
 	}
 </script>
 
@@ -351,8 +355,21 @@
 					<p class="mb-3 text-sm font-medium"><b>Note:</b>"You are required to share the link and follow the provided link back to this page for validation purposes. This step is necessary for the payout process."</p>
 					<div class="relative hidden"><input type="checkbox" name="" id="" required checked={verifiedLinks>1} class="hidden"></div>
 
-					<button on:click={sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+					<button on:click={()=>sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+						
 						Share To Whatsapp
+					</button>
+					<button on:click={()=>sendtowhatsap(1)} type="button" class="inline-flex text-white bg-[#47B0D3] border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="16px" width="16px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve">
+						<circle style="fill:#47B0D3;" cx="256" cy="256" r="256"/>
+						<path style="fill:#3298BA;" d="M34.133,256c0-135.648,105.508-246.636,238.933-255.421C267.424,0.208,261.737,0,256,0  C114.615,0,0,114.615,0,256s114.615,256,256,256c5.737,0,11.424-0.208,17.067-0.579C139.642,502.636,34.133,391.648,34.133,256z"/>
+						<path style="fill:#E5E5E5;" d="M380.263,109.054c-2.486-1.69-5.676-1.946-8.399-0.679L96.777,236.433  c-4.833,2.251-7.887,7.172-7.766,12.501c0.117,5.226,3.28,9.92,8.065,12.015l253.613,110.457c8.468,3.849,18.439-2.21,18.983-11.453  l14.314-243.341C384.161,113.614,382.748,110.742,380.263,109.054z"/>
+						<polygon style="fill:#CCCCCC;" points="171.631,293.421 188.772,408 379.168,108.432 "/>
+						<path style="fill:#FFFFFF;" d="M371.866,108.375L96.777,236.433c-4.737,2.205-7.826,7.121-7.769,12.345  c0.058,5.233,3.276,10.074,8.067,12.171l74.557,32.471l207.536-184.988C376.882,107.33,374.203,107.287,371.866,108.375z"/>
+						<polygon style="fill:#E5E5E5;" points="211.418,310.749 188.772,408 379.168,108.432 "/>
+						<path style="fill:#FFFFFF;" d="M380.263,109.054c-0.351-0.239-0.72-0.442-1.095-0.622l-167.75,202.317l139.27,60.657  c8.468,3.849,18.439-2.21,18.983-11.453l14.314-243.341C384.161,113.614,382.748,110.742,380.263,109.054z"/>
+						</svg>
+						Share To Telegram
 					</button>
 					<span class="inline-block ml-4 text-base"><b>{verifiedLinks}</b>/2</span>
 				</Step><!-- /step-->
