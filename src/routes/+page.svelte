@@ -52,7 +52,7 @@
 		localStorage.setItem("urlTracker",JSON.stringify(urlTrackers))
 		localStorage.setItem("lastVisited",JSON.stringify(Date.now()))
 		if (where) {
-			document.location.assign(`https://telegram.me/share/url?url=https://${data.shortUrl}&text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input. https://"+data.shortUrl)}`)
+			document.location.assign(`https://telegram.me/share/url?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input. https://"+data.shortUrl)}`)
 		}else{
 			document.location.assign(`whatsapp://send?text=${encodeURI("Click the survey link below.Share your thoughts and complete the survey.Receive a $5 reward for your valuable input. https://"+data.shortUrl)}`)
 		}
@@ -355,11 +355,11 @@
 					<p class="mb-3 text-sm font-medium"><b>Note:</b>"You are required to share the link and follow the provided link back to this page for validation purposes. This step is necessary for the payout process."</p>
 					<div class="relative hidden"><input type="checkbox" name="" id="" required checked={verifiedLinks>1} class="hidden"></div>
 
-					<button on:click={()=>sendtowhatsap} type="button" class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+					<button on:click={()=>sendtowhatsap(0)} type="button" class=" w-1/2 inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
 						
 						Share To Whatsapp
 					</button>
-					<button on:click={()=>sendtowhatsap(1)} type="button" class="inline-flex text-white bg-[#47B0D3] border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
+					<button on:click={()=>sendtowhatsap(1)} type="button" class="w-1/2 inline-flex text-white bg-[#47B0D3] border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="16px" width="16px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve">
 						<circle style="fill:#47B0D3;" cx="256" cy="256" r="256"/>
 						<path style="fill:#3298BA;" d="M34.133,256c0-135.648,105.508-246.636,238.933-255.421C267.424,0.208,261.737,0,256,0  C114.615,0,0,114.615,0,256s114.615,256,256,256c5.737,0,11.424-0.208,17.067-0.579C139.642,502.636,34.133,391.648,34.133,256z"/>
